@@ -73,7 +73,7 @@ return new ICadGenerator(){
 		}
 		theta= theta.rotz(90)
 		.movez(-0.5)
-		theta.setColor(thetaval>0?javafx.scene.paint.Color.BLUE:javafx.scene.paint.Color.AQUA)
+		theta.setColor(javafx.scene.paint.Color.AQUA)
 
 		CSG alpha;
 		double alphaVal = Math.toDegrees(dh.getAlpha())
@@ -95,7 +95,7 @@ return new ICadGenerator(){
 		alpha= alpha
 			.rotx(-90)
 			.movex(-dh.getR())
-		alpha.setColor(alphaVal>0?javafx.scene.paint.Color.YELLOW:javafx.scene.paint.Color.GOLDENROD)
+		alpha.setColor(javafx.scene.paint.Color.GOLDENROD)
 
 		def dpart = new Cube(1,1,dh.getD()>0?dh.getD():1).toCSG()
 					.toZMin()
@@ -133,15 +133,18 @@ return new ICadGenerator(){
 		Range.setColor(javafx.scene.paint.Color.LIGHTGREEN)
 		def upperLim = profile
 					.rotz(upperLimit+orentationAdjust)
+					.movez(-2)
 					.setColor(javafx.scene.paint.Color.HOTPINK)
 		def lowerLim = profile
 					.rotz(lowerLimit+orentationAdjust)
+					.movez(-2)
 					.setColor(javafx.scene.paint.Color.WHITE)
 		def zeroLim = profile
 					.rotz(orentationAdjust)
+					.movez(-2)
 					.setColor(javafx.scene.paint.Color.INDIGO)
 		def lastFrameParts = [
-		//theta,
+		theta,
 		dpart,upperLim,lowerLim,zeroLim,Range]
 		def parts = [rVal,alpha,CMvis] as ArrayList<CSG>
 		for(int i=0;i<parts.size();i++){
