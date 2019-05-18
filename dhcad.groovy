@@ -110,9 +110,9 @@ return new ICadGenerator(){
 		def name = d.getScriptingName()
 		//println name
 		
-		def printit = name.equals("FrontRight")&&linkIndex==0
+		def printit = name.equals("FrontLeft")&&linkIndex==1
 		if(printit)println "\n\n\nLink range = "+totalRange+" "+upperLimit+" " +lowerLimit
-		def rangeComp = 360-totalRange
+		def rangeComp = totalRange
 		def orentationAdjust = -thetaval+90
 		def Range
 		if(rangeComp>min)
@@ -126,8 +126,8 @@ return new ICadGenerator(){
 			Range =profile
 		
 		Range=Range
-			.rotz(lowerLimit+orentationAdjust)
-			.movez(-2)
+			.rotz(lowerLimit+orentationAdjust-rangeComp)
+			.movez(2)
 
 		
 		Range.setColor(javafx.scene.paint.Color.LIGHTGREEN)
@@ -140,7 +140,9 @@ return new ICadGenerator(){
 		def zeroLim = profile
 					.rotz(orentationAdjust)
 					.setColor(javafx.scene.paint.Color.INDIGO)
-		def lastFrameParts = [theta,dpart,upperLim,lowerLim,zeroLim,Range]
+		def lastFrameParts = [
+		//theta,
+		dpart,upperLim,lowerLim,zeroLim,Range]
 		def parts = [rVal,alpha,CMvis] as ArrayList<CSG>
 		for(int i=0;i<parts.size();i++){
 			parts.get(i).setManipulator(manipulator);
