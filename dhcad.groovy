@@ -178,6 +178,7 @@ return new ICadGenerator(){
 		def parts = [body,IMU, CMvis] as ArrayList<CSG>
 		for(int i=0;i<parts.size();i++){
 			parts.get(i)
+			.setManipulator(b.getRootListener());
 		}
 		return parts;
 	}
