@@ -95,7 +95,7 @@ return new ICadGenerator(){
 		alpha= alpha
 			.rotx(-90)
 			.movex(-dh.getR())
-		alpha.setColor(javafx.scene.paint.Color.GOLDENROD)
+		alpha.setColor(javafx.scene.paint.Color.YELLOW)
 
 		def dpart = new Cube(1,1,dh.getD()>0?dh.getD():1).toCSG()
 					.toZMin()
