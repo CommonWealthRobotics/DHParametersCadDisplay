@@ -113,6 +113,7 @@ return new ICadGenerator(){
 		CSG motor = Vitamins.get(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
 			.roty(180)
 			.toZMin()
+			.rotz(90)
 			
 		def lastFrameParts = [
 		theta,motor,
