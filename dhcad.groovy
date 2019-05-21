@@ -110,24 +110,36 @@ return new ICadGenerator(){
 					.rotz(orentationAdjust)
 					.movez(-2)
 					.setColor(javafx.scene.paint.Color.INDIGO)
+		CSG motor = Vitamins.get(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
+			.roty(180)
+			.toZMin()
+			
 		def lastFrameParts = [
-		theta,
-		dpart,upperLim,lowerLim,zeroLim,Range]
+		theta,motor,
+		dpart,upperLim,lowerLim,zeroLim,Range
+		]
 
 		return lastFrameParts;
 		
 	}
 	ArrayList<CSG> linkParts(DHParameterKinematics d, int linkIndex){
+		
 		ArrayList<CSG> allCad=new ArrayList<>();
 		ArrayList<DHLink> dhLinks = d.getChain().getLinks()
 		DHLink dh = dhLinks.get(linkIndex)
+		double thetaval = Math.toDegrees(dh.getTheta())
 		// Hardware to engineering units configuration
 		LinkConfiguration conf = d.getLinkConfiguration(linkIndex);
 		// Engineering units to kinematics link (limits and hardware type abstraction)
 		AbstractLink abstractLink = d.getAbstractLink(linkIndex);// Transform used by the UI to render the location of the object
 		// Transform used by the UI to render the location of the object
 		Affine manipulator = dh.getListener();
-		Affine lastLinkFrame
+		CSG shaft = moveDHValues(
+			Vitamins.get(conf.getShaftType(),conf.getShaftSize())
+			.rotz(90-thetaval)
+			.toZMax()
+			,dh)
+		
 		def massKg = conf.getMassKg()
 		def centerOfMass = TransformFactory.nrToCSG(conf.getCenterOfMassFromCentroid() )
 		def CMvis = new Sphere(500*massKg).toCSG()
@@ -176,7 +188,7 @@ return new ICadGenerator(){
 		//println name
 		
 
-		def parts = [rVal,alpha,CMvis] as ArrayList<CSG>
+		def parts = [rVal,alpha,CMvis,shaft] as ArrayList<CSG>
 		
 		return parts;
 		
