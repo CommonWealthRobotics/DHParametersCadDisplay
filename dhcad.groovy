@@ -8,7 +8,6 @@ import eu.mihosoft.vrl.v3d.FileUtil;
 import eu.mihosoft.vrl.v3d.Transform;
 import javafx.scene.transform.Affine;
 import com.neuronrobotics.bowlerstudio.physics.TransformFactory;
-println "Loading STL file"
 return new ICadGenerator(){
 
 	private CSG moveDHValues(CSG incoming,DHLink dh ){
@@ -87,14 +86,14 @@ return new ICadGenerator(){
 			Extrude.revolve(profile,
 					0, // rotation center radius, if 0 it is a circle, larger is a donut. Note it can be negative too
 					rangeComp,// degrees through wich it should sweep
-					(int)min)//number of sweep increments
+					(int)30)//number of sweep increments
 			)
 		else
 			Range =profile
 		
 		Range=Range
 			.rotz(lowerLimit+orentationAdjust-rangeComp)
-			.movez(2)
+			.movez(-1.5)
 
 		
 		Range.setColor(javafx.scene.paint.Color.LIGHTGREEN)
