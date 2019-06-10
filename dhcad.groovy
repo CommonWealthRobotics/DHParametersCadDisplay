@@ -87,7 +87,7 @@ return new ICadGenerator(){
 			Extrude.revolve(profile,
 					0, // rotation center radius, if 0 it is a circle, larger is a donut. Note it can be negative too
 					rangeComp,// degrees through wich it should sweep
-					(int)20)//number of sweep increments
+					(int)(rangeComp/12.0))//number of sweep increments
 			)
 		else
 			Range =profile
