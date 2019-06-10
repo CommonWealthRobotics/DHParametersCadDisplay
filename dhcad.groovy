@@ -69,8 +69,8 @@ return new ICadGenerator(){
 		double lowerLimit = -abstractLink.getMinEngineeringUnits()
 		double totalRange = -(upperLimit-lowerLimit)
 		def min = 10
-		if(totalRange>360-min)
-			totalRange=360-min
+		if(totalRange>360)
+			totalRange=360
 		if(totalRange<min)
 			totalRange=min
 		def name = d.getScriptingName()
@@ -81,12 +81,13 @@ return new ICadGenerator(){
 		def rangeComp = totalRange
 		def orentationAdjust = -thetaval+90
 		def Range
+		println "Range total " + rangeComp
 		if(rangeComp>min)
 			Range = CSG.unionAll(
 			Extrude.revolve(profile,
 					0, // rotation center radius, if 0 it is a circle, larger is a donut. Note it can be negative too
 					rangeComp,// degrees through wich it should sweep
-					(int)5)//number of sweep increments
+					(int)20)//number of sweep increments
 			)
 		else
 			Range =profile
