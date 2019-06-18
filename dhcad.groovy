@@ -143,7 +143,7 @@ return new ICadGenerator(){
 		
 		def massKg = conf.getMassKg()
 		def centerOfMass = TransformFactory.nrToCSG(conf.getCenterOfMassFromCentroid() )
-		def CMvis = new Sphere(500*massKg).toCSG()
+		def CMvis = new Sphere(100*massKg).toCSG()
 					.transformed(centerOfMass)
 		
 		if(linkIndex==0)
@@ -235,7 +235,7 @@ return new ICadGenerator(){
 		
 		def massKg = b.getMassKg()
 		def centerOfMass = TransformFactory.nrToCSG(b.getCenterOfMassFromCentroid() )
-		def CMvis = new Sphere(500*massKg).toCSG()
+		def CMvis = new Sphere(100*massKg).toCSG()
 					.transformed(centerOfMass)
 					
 		def centerOfIMU = TransformFactory.nrToCSG(b.getIMUFromCentroid() )
