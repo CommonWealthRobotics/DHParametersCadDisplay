@@ -13,9 +13,10 @@ import java.nio.file.Paths;
 
 import eu.mihosoft.vrl.v3d.CSG
 import eu.mihosoft.vrl.v3d.Cube
+import eu.mihosoft.vrl.v3d.Extrude
 import eu.mihosoft.vrl.v3d.FileUtil;
+import eu.mihosoft.vrl.v3d.Sphere
 import eu.mihosoft.vrl.v3d.Transform;
-import javafx.scene.shape.Sphere
 import javafx.scene.transform.Affine;
 import com.neuronrobotics.bowlerstudio.physics.TransformFactory;
 return new ICadGenerator(){
@@ -90,7 +91,7 @@ return new ICadGenerator(){
 		if(printit)println "\n\n\nLink range = "+totalRange+" "+upperLimit+" " +lowerLimit
 		def rangeComp = totalRange
 		def orentationAdjust = -thetaval+90
-		def Range
+		CSG Range
 		println "Range total " + rangeComp
 		if(rangeComp>min)
 			Range = CSG.unionAll(
