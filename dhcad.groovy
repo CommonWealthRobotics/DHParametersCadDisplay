@@ -20,7 +20,6 @@ import eu.mihosoft.vrl.v3d.Transform;
 import javafx.scene.transform.Affine;
 import com.neuronrobotics.bowlerstudio.physics.TransformFactory;
 return new ICadGenerator(){
-
 	private CSG moveDHValues(CSG incoming,DHLink dh ){
 		TransformNR step = new TransformNR(dh.DhStep(0)).inverse()
 		Transform move = TransformFactory.nrToCSG(step)
