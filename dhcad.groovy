@@ -87,11 +87,11 @@ return new ICadGenerator(){
 		//println name
 		
 		def printit = name.equals("FrontLeft")&&linkIndex==1
-		if(printit)println "\n\n\nLink range = "+totalRange+" "+upperLimit+" " +lowerLimit
+		//if(printit)println "\n\n\nLink range = "+totalRange+" "+upperLimit+" " +lowerLimit
 		def rangeComp = totalRange
 		def orentationAdjust = -thetaval+90
 		CSG Range
-		println "Range total " + rangeComp
+		//println "Range total " + rangeComp
 		if(rangeComp>min)
 			Range = CSG.unionAll(
 			Extrude.revolve(profile,
