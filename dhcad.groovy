@@ -69,47 +69,46 @@ return new ICadGenerator(){
 			theta= theta.rotz(-thetaval)
 		}
 		theta= theta.rotz(90)
-		.movez(-0.5)
+		.movez(0.5)
 		theta.setColor(javafx.scene.paint.Color.AQUA)
 
 
 		def dpart = new Cube(1,1,dh.getD()>0?dh.getD():1).toCSG()
 					.toZMin()
-		double upperLimit = -abstractLink.getMaxEngineeringUnits()
+		double upperLimit = abstractLink.getMaxEngineeringUnits()
 		double lowerLimit = -abstractLink.getMinEngineeringUnits()
-		double totalRange = -(upperLimit-lowerLimit)
+		//double totalRange = -(upperLimit-lowerLimit)
 		def min = 10
-		if(totalRange>360)
-			totalRange=360
-		if(totalRange<min)
-			totalRange=min
+		if(upperLimit>360)
+			upperLimit=360
+		if(upperLimit<min)
+			upperLimit=min
 		def name = d.getScriptingName()
 		//println name
 		
 		def printit = name.equals("FrontLeft")&&linkIndex==1
 		//if(printit)println "\n\n\nLink range = "+totalRange+" "+upperLimit+" " +lowerLimit
-		def rangeComp = totalRange
 		def orentationAdjust = -thetaval+90
-		CSG Range
-		//println "Range total " + rangeComp
-		if(rangeComp>min)
-			Range = CSG.unionAll(
-			Extrude.revolve(profile,
-					0, // rotation center radius, if 0 it is a circle, larger is a donut. Note it can be negative too
-					rangeComp,// degrees through wich it should sweep
-					(int)(rangeComp/12.0))//number of sweep increments
-			)
-		else
-			Range =profile
-		
-		Range=Range
-			.rotz(lowerLimit+orentationAdjust-rangeComp)
-			.movez(-1.5)
-
-		
-		Range.setColor(javafx.scene.paint.Color.LIGHTGREEN)
+//		CSG Rangeupper
+//		//println "Range total " + rangeComp
+//		if(upperLimit>10)
+//			Rangeupper = CSG.unionAll(
+//			Extrude.revolve(profile,
+//					0, // rotation center radius, if 0 it is a circle, larger is a donut. Note it can be negative too
+//					upperLimit,// degrees through wich it should sweep
+//					(int)(upperLimit/12.0))//number of sweep increments
+//			)
+//		else
+//			Rangeupper =profile
+//		
+//		Rangeupper=Rangeupper
+//			.rotz(orentationAdjust-upperLimit)
+//			.movez(-1.5)
+//
+//		
+//		Rangeupper.setColor(javafx.scene.paint.Color.LIGHTGREEN)
 		def upperLim = profile
-					.rotz(upperLimit+orentationAdjust)
+					.rotz(-upperLimit+orentationAdjust)
 					.movez(-2)
 					.setColor(javafx.scene.paint.Color.HOTPINK)
 		def lowerLim = profile
@@ -126,8 +125,9 @@ return new ICadGenerator(){
 			.rotz(90)
 			
 		def lastFrameParts = [
-		theta,motor,
-		dpart,upperLim,lowerLim,zeroLim,Range
+		theta,
+		//motor,
+		dpart,upperLim,lowerLim,zeroLim//,Rangeupper
 		]
 
 		return lastFrameParts;
@@ -199,7 +199,9 @@ return new ICadGenerator(){
 		//println name
 		
 
-		def parts = [rVal,alpha,CMvis,shaft] as ArrayList<CSG>
+		def parts = [rVal,alpha,CMvis
+		//,shaft
+		] as ArrayList<CSG>
 		
 		return parts;
 		
