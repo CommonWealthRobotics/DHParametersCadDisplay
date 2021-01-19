@@ -39,8 +39,8 @@ return new ICadGenerator(){
 		// Engineering units to kinematics link (limits and hardware type abstraction)
 		AbstractLink abstractLink = d.getAbstractLink(linkIndex);// Transform used by the UI to render the location of the object
 		// Transform used by the UI to render the location of the object
-		Affine manipulator = dh.getListener();
-		Affine lastLinkFrame
+		def manipulator = dh.getListener();
+		def lastLinkFrame
 
 		CSG profile = new Cube(1,// x dimention
 					20,// y dimention
@@ -144,7 +144,7 @@ return new ICadGenerator(){
 		// Engineering units to kinematics link (limits and hardware type abstraction)
 		AbstractLink abstractLink = d.getAbstractLink(linkIndex);// Transform used by the UI to render the location of the object
 		// Transform used by the UI to render the location of the object
-		Affine manipulator = dh.getListener();
+		def manipulator = dh.getListener();
 		CSG shaft = moveDHValues(
 			Vitamins.get(conf.getShaftType(),conf.getShaftSize())
 			.rotz(90-thetaval)
@@ -211,14 +211,14 @@ return new ICadGenerator(){
 		
 		ArrayList<DHLink> dhLinks = d.getChain().getLinks()
 		DHLink dh = dhLinks.get(linkIndex)
-		Affine manipulator = dh.getListener();
+		def manipulator = dh.getListener();
 		
 		def lastFrameParts = linkLimitParts( d,  linkIndex+1)
 		
 		def parts = linkParts( d,  linkIndex)
 		parts.addAll(lastFrameParts)
 		for(int i=0;i<parts.size();i++){
-			parts.get(i).setManipulator(manipulator);
+			parts.get(i).setManipulator((Affine)manipulator);
 			//parts.get(i).setColor(javafx.scene.paint.Color.RED)
 		}
 		return parts;
