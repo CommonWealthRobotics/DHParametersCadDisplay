@@ -129,6 +129,9 @@ return new ICadGenerator(){
 		//motor,
 		dpart,upperLim,lowerLim,zeroLim//,Rangeupper
 		]
+		for(CSG c:lastFrameParts) {
+			c.setManufacturing({return null})
+		}
 
 		return lastFrameParts;
 		
@@ -202,7 +205,9 @@ return new ICadGenerator(){
 		def parts = [rVal,alpha,CMvis
 		//,shaft
 		] as ArrayList<CSG>
-		
+		for(CSG c:parts) {
+			c.setManufacturing({return null})
+		}
 		return parts;
 		
 	}
@@ -220,6 +225,9 @@ return new ICadGenerator(){
 		for(int i=0;i<parts.size();i++){
 			parts.get(i).setManipulator((Affine)manipulator);
 			//parts.get(i).setColor(javafx.scene.paint.Color.RED)
+		}
+		for(CSG c:parts) {
+			c.setManufacturing({return null})
 		}
 		return parts;
 
@@ -275,6 +283,10 @@ return new ICadGenerator(){
 		for(int i=0;i<parts.size();i++){
 			parts.get(i)
 			.setManipulator(b.getRootListener());
+			
+		}
+		for(CSG c:parts) {
+			c.setManufacturing({return null})
 		}
 		return parts;
 	}
