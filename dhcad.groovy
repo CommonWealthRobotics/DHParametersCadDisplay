@@ -136,7 +136,6 @@ return new ICadGenerator(){
 		
 	}
 	ArrayList<CSG> linkParts(DHParameterKinematics d, int linkIndex){
-		
 		ArrayList<CSG> allCad=new ArrayList<>();
 		ArrayList<DHLink> dhLinks = d.getChain().getLinks()
 		DHLink dh = dhLinks.get(linkIndex)
@@ -153,7 +152,8 @@ return new ICadGenerator(){
 			.toZMax()
 			,dh)
 		
-		def massKg = conf.getMassKg()
+		def massKg = Math.abs(conf.getMassKg())
+		massKg=massKg>0?massKg:0.001
 		def centerOfMass = TransformFactory.nrToCSG(conf.getCenterOfMassFromCentroid() )
 		def CMvis = new Sphere(100*massKg).toCSG()
 					.transformed(centerOfMass)
