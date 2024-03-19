@@ -130,6 +130,7 @@ return new ICadGenerator(){
 		]
 		for(CSG c:lastFrameParts) {
 			c.setManufacturing({return null})
+			c.getStorage().set("no-physics",true)
 		}
 
 		return lastFrameParts;
@@ -206,6 +207,8 @@ return new ICadGenerator(){
 		] as ArrayList<CSG>
 		for(CSG c:parts) {
 			c.setManufacturing({return null})
+			c.getStorage().set("no-physics",true)
+			
 		}
 		return parts;
 		
@@ -227,6 +230,8 @@ return new ICadGenerator(){
 		}
 		for(CSG c:parts) {
 			c.setManufacturing({return null})
+			c.getStorage().set("no-physics",true)
+			
 		}
 		return parts;
 
@@ -286,6 +291,8 @@ return new ICadGenerator(){
 		}
 		for(CSG c:parts) {
 			c.setManufacturing({return null})
+			c.getStorage().set("no-physics",true)
+			
 		}
 		return parts;
 	}
