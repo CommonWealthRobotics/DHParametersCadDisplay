@@ -1,5 +1,7 @@
 //Your code here
 import com.neuronrobotics.bowlerstudio.creature.ICadGenerator;
+import com.neuronrobotics.bowlerstudio.creature.MobileBaseCadManager
+
 import org.apache.commons.io.IOUtils;
 import com.neuronrobotics.bowlerstudio.vitamins.*;
 import com.neuronrobotics.sdk.addons.kinematics.AbstractLink
@@ -284,11 +286,14 @@ return new ICadGenerator(){
 					}
 				);			
 		}
+
 		for(int i=0;i<parts.size();i++){
 			parts.get(i)
 			.setManipulator(b.getRootListener());
-			
 		}
+		MobileBaseCadManager manager  = MobileBaseCadManager.get(b);
+		ArrayList<CSG> vitamins = manager.getVitaminsDisplay(b,b.getRootListener());
+		parts.addAll(vitamins);
 		for(CSG c:parts) {
 			c.setManufacturing({return null})
 			c.getStorage().set("no-physics",true)
