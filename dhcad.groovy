@@ -18,6 +18,7 @@ import eu.mihosoft.vrl.v3d.Extrude
 import eu.mihosoft.vrl.v3d.FileUtil;
 import eu.mihosoft.vrl.v3d.Sphere
 import eu.mihosoft.vrl.v3d.Transform;
+import eu.mihosoft.vrl.v3d.parametrics.LengthParameter
 import javafx.scene.transform.Affine;
 import com.neuronrobotics.bowlerstudio.physics.TransformFactory;
 return new ICadGenerator(){
@@ -120,16 +121,20 @@ return new ICadGenerator(){
 					.rotz(orentationAdjust)
 					.movez(-2)
 					.setColor(javafx.scene.paint.Color.INDIGO)
-		CSG motor = Vitamins.get(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
-			.roty(180)
-			.toZMin()
-			.rotz(90)
+//		CSG motor = Vitamins.get(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
+//			.roty(180)
+//			.toZMin()
+//			.rotz(90)
 			
 		def lastFrameParts = [
 		theta,
 		//motor,
 		dpart,upperLim,lowerLim,zeroLim//,Rangeupper
 		]
+		
+		LengthParameter tailLength		= new LengthParameter("Cable Cut Out Length",30,[500, 0.01])
+		tailLength.setMM(10);
+
 		for(CSG c:lastFrameParts) {
 			c.setManufacturing({return null})
 			c.getStorage().set("no-physics",true)
@@ -217,13 +222,17 @@ return new ICadGenerator(){
 	}
 	@Override
 	public ArrayList<CSG> generateCad(DHParameterKinematics d, int linkIndex) {
-		
 		ArrayList<DHLink> dhLinks = d.getChain().getLinks()
 		DHLink dh = dhLinks.get(linkIndex)
 		def manipulator = dh.getListener();
 		
 		def lastFrameParts = linkLimitParts( d,  linkIndex+1)
-		
+
+		if(linkIndex<(d.getNumberOfLinks()-1)) {
+			MobileBaseCadManager manager  = MobileBaseCadManager.get(d.getLinkConfiguration(linkIndex+1));
+			CSG vitamin = manager.getVitaminsElectroMechanicalDisplay(d.getAbstractLink(linkIndex+1),manipulator);
+			lastFrameParts.add(vitamin)
+		}
 		def parts = linkParts( d,  linkIndex)
 		parts.addAll(lastFrameParts)
 		for(int i=0;i<parts.size();i++){
@@ -292,6 +301,8 @@ return new ICadGenerator(){
 			.setManipulator(b.getRootListener());
 		}
 		MobileBaseCadManager manager  = MobileBaseCadManager.get(b);
+		LengthParameter tailLength		= new LengthParameter("Cable Cut Out Length",30,[500, 0.01])
+		tailLength.setMM(10);
 		ArrayList<CSG> vitamins = manager.getVitaminsDisplay(b,b.getRootListener());
 		parts.addAll(vitamins);
 		for(CSG c:parts) {
