@@ -1,3 +1,5 @@
+import com.neuronrobotics.sdk.addons.kinematics.IVitaminHolder
+
 //Your code here
 import com.neuronrobotics.bowlerstudio.creature.ICadGenerator;
 import com.neuronrobotics.bowlerstudio.creature.MobileBaseCadManager
@@ -27,8 +29,7 @@ return new ICadGenerator(){
 		Transform move = TransformFactory.nrToCSG(step)
 		return incoming.transformed(move)
 
-	}
-	
+	}	
 	ArrayList<CSG> linkLimitParts(DHParameterKinematics d, int linkIndex){
 		ArrayList<DHLink> dhLinks = d.getChain().getLinks()
 		if(linkIndex >= dhLinks.size()){
@@ -53,7 +54,6 @@ return new ICadGenerator(){
 				.toYMin()
 				.toZMin()
 				//.toXMin()
-				
 		CSG theta;
 		double thetaval = Math.toDegrees(dh.getTheta())
 		if(Math.abs(thetaval)>10){
@@ -224,20 +224,29 @@ return new ICadGenerator(){
 	public ArrayList<CSG> generateCad(DHParameterKinematics d, int linkIndex) {
 		ArrayList<DHLink> dhLinks = d.getChain().getLinks()
 		DHLink dh = dhLinks.get(linkIndex)
-		def manipulator = dh.getListener();
+		Affine manipulator = dh.getListener();
+		TransformNR offset = new TransformNR(dh.DhStep(0)).inverse();
 		
-		def lastFrameParts = linkLimitParts( d,  linkIndex+1)
-
-		if(linkIndex<(d.getNumberOfLinks()-1)) {
-			MobileBaseCadManager manager  = MobileBaseCadManager.get(d.getLinkConfiguration(linkIndex+1));
-			CSG vitamin = manager.getVitaminsElectroMechanicalDisplay(d.getAbstractLink(linkIndex+1),manipulator);
-			lastFrameParts.add(vitamin)
-		}
-		def parts = linkParts( d,  linkIndex)
+		ArrayList<CSG> lastFrameParts = linkLimitParts( d,  linkIndex+1)
+		MobileBaseCadManager manager  = MobileBaseCadManager.get(d.getLinkConfiguration(linkIndex));
+		
+//		if(linkIndex<(d.getNumberOfLinks()-1)) {
+//			CSG vitamin = manager.getVitaminsElectroMechanicalDisplay(d.getAbstractLink(linkIndex+1),manipulator);
+//			lastFrameParts.add(vitamin)
+//		}
+		
+		ArrayList<CSG> parts = linkParts( d,  linkIndex)
 		parts.addAll(lastFrameParts)
 		for(int i=0;i<parts.size();i++){
-			parts.get(i).setManipulator((Affine)manipulator);
+			parts.get(i).setManipulator(manipulator);
 			//parts.get(i).setColor(javafx.scene.paint.Color.RED)
+		}
+		if(manager!=null) {
+			parts.addAll(manager.getOriginVitaminsDisplay(
+				d.getAbstractLink(linkIndex),
+				manipulator,offset));
+		}else{
+			println "No manager found for "+d.getScriptingName()+" "+linkIndex
 		}
 		for(CSG c:parts) {
 			c.setManufacturing({return null})
