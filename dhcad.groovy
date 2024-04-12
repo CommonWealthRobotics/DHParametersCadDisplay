@@ -249,9 +249,15 @@ return new ICadGenerator(){
 			println "No manager found for "+d.getScriptingName()+" "+linkIndex
 		}
 		for(CSG c:parts) {
-			c.setManufacturing({return null})
 			c.getStorage().set("no-physics",true)
-			
+		}
+		if(manager!=null) {
+			parts.addAll(manager.getOriginVitamins(
+				d.getAbstractLink(linkIndex),
+				manipulator,offset));
+		}
+		for(CSG c:parts) {
+			c.setManufacturing({return null})
 		}
 		return parts;
 
@@ -312,12 +318,15 @@ return new ICadGenerator(){
 		MobileBaseCadManager manager  = MobileBaseCadManager.get(b);
 		LengthParameter tailLength		= new LengthParameter("Cable Cut Out Length",30,[500, 0.01])
 		tailLength.setMM(10);
-		ArrayList<CSG> vitamins = manager.getVitaminsDisplay(b,b.getRootListener());
-		parts.addAll(vitamins);
+		parts.addAll(manager.getVitaminsDisplay(b,b.getRootListener()));
+		for(CSG c:parts) {
+			c.getStorage().set("no-physics",true)
+		}
+		// these vitamins do not update live, but are computed for physics. 
+		// they mark the location in cad the vitamin is after regeneration
+		parts.addAll(manager.getVitamins(b,b.getRootListener()));
 		for(CSG c:parts) {
 			c.setManufacturing({return null})
-			c.getStorage().set("no-physics",true)
-			
 		}
 		return parts;
 	}
