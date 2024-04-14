@@ -224,7 +224,7 @@ return new ICadGenerator(){
 	public ArrayList<CSG> generateCad(DHParameterKinematics d, int linkIndex) {
 		ArrayList<DHLink> dhLinks = d.getChain().getLinks()
 		DHLink dh = dhLinks.get(linkIndex)
-		Affine manipulator = dh.getListener();
+		Affine manipulator = d.getListener(linkIndex);
 		TransformNR offset = new TransformNR(dh.DhStep(0)).inverse();
 		
 		ArrayList<CSG> lastFrameParts = linkLimitParts( d,  linkIndex+1)
@@ -241,10 +241,17 @@ return new ICadGenerator(){
 			parts.get(i).setManipulator(manipulator);
 			//parts.get(i).setColor(javafx.scene.paint.Color.RED)
 		}
+		Affine lastLinkAffine = linkIndex==0? d.getRootListener() :d.getListener(linkIndex-1);
 		if(manager!=null) {
 			parts.addAll(manager.getOriginVitaminsDisplay(
 				d.getAbstractLink(linkIndex),
 				manipulator,offset));
+			parts.addAll(manager.getDefaultVitaminsDisplay(
+				d.getAbstractLink(linkIndex),
+				manipulator));
+			parts.addAll(manager.getPreviousLinkVitaminsDisplay(
+				d.getAbstractLink(linkIndex),
+				lastLinkAffine));
 		}else{
 			println "No manager found for "+d.getScriptingName()+" "+linkIndex
 		}
@@ -255,6 +262,12 @@ return new ICadGenerator(){
 			parts.addAll(manager.getOriginVitamins(
 				d.getAbstractLink(linkIndex),
 				manipulator,offset));
+			parts.addAll(manager.getDefaultVitamins(
+				d.getAbstractLink(linkIndex),
+				manipulator));
+			parts.addAll(manager.getPreviousLinkVitamins(
+				d.getAbstractLink(linkIndex),
+				lastLinkAffine));
 		}
 		for(CSG c:parts) {
 			c.setManufacturing({return null})
