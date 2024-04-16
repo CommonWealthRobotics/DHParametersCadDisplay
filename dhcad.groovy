@@ -298,9 +298,9 @@ return new ICadGenerator(){
 		
 		def massKg = b.getMassKg()
 		def centerOfMass = TransformFactory.nrToCSG(b.getCenterOfMassFromCentroid() )
-		def CMvis = new Sphere(100*massKg).toCSG()
+		CSG CMvis = new Sphere(100*massKg).toCSG()
 					.transformed(centerOfMass)
-					
+		CMvis.setIsWireFrame(true)
 		def centerOfIMU = TransformFactory.nrToCSG(b.getIMUFromCentroid() )
 		def IMU = new Cube(5).toCSG()
 					.transformed(centerOfIMU)
