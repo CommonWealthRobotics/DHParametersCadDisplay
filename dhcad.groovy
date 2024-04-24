@@ -154,12 +154,16 @@ return new ICadGenerator(){
 		AbstractLink abstractLink = d.getAbstractLink(linkIndex);// Transform used by the UI to render the location of the object
 		// Transform used by the UI to render the location of the object
 		def manipulator = dh.getListener();
-		CSG shaft = moveDHValues(
+		CSG shaft 
+		try {
+		 shaft = moveDHValues(
 			Vitamins.get(conf.getShaftType(),conf.getShaftSize())
 			.rotz(90-thetaval)
 			.toZMax()
 			,dh)
-		
+		}catch(Exception e) {
+			shaft=new Cube(1).toCSG();
+		}
 		def massKg = Math.abs(conf.getMassKg())
 		massKg=massKg>0?massKg:0.001
 		def centerOfMass = TransformFactory.nrToCSG(conf.getCenterOfMassFromCentroid() )
