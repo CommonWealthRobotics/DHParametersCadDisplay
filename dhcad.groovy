@@ -270,6 +270,7 @@ return new ICadGenerator(){
 				lastLinkAffine));
 		}
 		for(CSG c:parts) {
+			if( c!=null)
 			c.setManufacturing({return null})
 		}
 		return parts;
