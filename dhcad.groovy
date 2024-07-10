@@ -344,7 +344,8 @@ return new ICadGenerator(){
 		// they mark the location in cad the vitamin is after regeneration
 		parts.addAll(manager.getVitamins(b,b.getRootListener()));
 		for(CSG c:parts) {
-			c.setManufacturing({return null})
+			if(c!=null)
+				c.setManufacturing({return null})
 		}
 		return parts;
 	}
